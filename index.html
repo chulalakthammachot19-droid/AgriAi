@@ -1,130 +1,253 @@
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#176b45">
-<title>AgriAI - ผู้ช่วยเกษตรอัจฉริยะ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriAI - เพิ่มมูลค่าสินค้าท้องถิ่น</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f2f8f3;color:#234332}
-header{background:#176b45;color:white;padding:25px 20px;border-radius:0 0 25px 25px}
-header h1{margin:0;font-size:30px}
-header p{margin-bottom:0}
-main{padding:20px;max-width:650px;margin:auto}
-.welcome{background:#e0f1e4;padding:18px;border-radius:18px;margin-bottom:20px}
-h2{font-size:19px}
-.menu{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.item{background:white;border:0;border-radius:16px;padding:20px 10px;text-align:center;color:#176b45;font-size:16px;box-shadow:0 2px 8px #0001;cursor:pointer}
-.item span{font-size:30px;display:block;margin-bottom:8px}
-.page{display:none;background:white;padding:20px;border-radius:18px;margin-top:20px}
-.page.active{display:block}
-button.action{background:#176b45;color:white;border:0;border-radius:10px;padding:12px;cursor:pointer;margin-top:10px}
-input{padding:12px;border:1px solid #ccc;border-radius:9px;width:100%;margin:8px 0}
-.back{background:#e0f1e4;color:#176b45;border:0;padding:10px;border-radius:9px;cursor:pointer}
-footer{text-align:center;padding:25px;color:#66816e;font-size:13px}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f1f7f1;
+  color: #254331;
+}
+header {
+  background: #17623d;
+  color: white;
+  text-align: center;
+  padding: 35px 15px;
+}
+header h1 {font-size: 38px;}
+nav {
+  background: white;
+  padding: 15px;
+  text-align: center;
+}
+nav a {
+  color: #17623d;
+  margin: 10px;
+  text-decoration: none;
+  font-weight: bold;
+}
+main {
+  max-width: 900px;
+  margin: auto;
+  padding: 15px;
+}
+.card {
+  background: white;
+  padding: 20px;
+  margin: 18px 0;
+  border-radius: 15px;
+}
+button {
+  background: #24834d;
+  color: white;
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 8px;
+}
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
 </style>
 </head>
 <body>
 <header>
 <h1>🌱 AgriAI</h1>
-<p>ผู้ช่วยเพิ่มมูลค่าผลผลิตทางการเกษตร</p>
+<p>แพลตฟอร์มเพิ่มมูลค่าผลผลิตและผลิตภัณฑ์ท้องถิ่นจังหวัดแพร่</p>
+<p>เปลี่ยนวัตถุดิบให้เป็นโอกาสทางธุรกิจ</p>
 </header>
+<nav>
+<a href="#analyze">วิเคราะห์วัตถุดิบ</a>
+<a href="#ideas">ไอเดียแปรรูป</a>
+<a href="#cost">คำนวณต้นทุน</a>
+</nav>
 <main>
-<div class="welcome">
-<h2>ยินดีต้อนรับสู่ AgriAI </h2>
-<p>เปลี่ยนผลผลิตทางการเกษตรให้เป็นสินค้าเพิ่มมูลค่าด้วย AI</p>
-</div>
-<h2>เมนูหลัก</h2>
-<div class="menu">
-<button class="item" onclick="showPage('photo')"><span>📷</span>วิเคราะห์ผลผลิต</button>
-<button class="item" onclick="showPage('idea')"><span>💡</span>แนะนำการแปรรูป</button>
-<button class="item" onclick="showPage('cost')"><span>🧮</span>คำนวณต้นทุน</button>
-<button class="item" onclick="showPage('market')"><span>📊</span>วิเคราะห์ตลาด</button>
-<button class="item" onclick="showPage('assistant')"><span>🤖</span>AI ผู้ช่วยเกษตรกร</button>
-<button class="item" onclick="showPage('qr')"><span>🔳</span>QR Code สินค้า</button>
-</div>
+<section class="card" id="analyze">
+<h2>📷 วิเคราะห์วัตถุดิบ</h2>
+<p>เลือกหมวดหมู่และกรอกข้อมูลวัตถุดิบที่ต้องการเพิ่มมูลค่า</p>
 
-<section id="photo" class="page">
-<button class="back" onclick="home()">← กลับหน้าหลัก</button>
-<h2>📷 วิเคราะห์ผลผลิต</h2>
-<p>เลือกรูปผลผลิตที่ต้องการวิเคราะห์</p>
-<input type="file" accept="image/*" onchange="preview(event)">
-<img id="preview" style="width:100%;border-radius:12px;display:none">
-<p>ระบบจำแนกภาพ AI จะเชื่อมต่อในขั้นตอนถัดไป</p>
+<label>หมวดหมู่วัตถุดิบ</label>
+<select id="category">
+<option value="fruit">🍊 ผลไม้และพืชผล</option>
+<option value="leaf">🌿 ใบไม้และวัสดุธรรมชาติ</option>
+<option value="herb">🌱 สมุนไพร</option>
+<option value="cloth">🧵 ผ้าและสิ่งทอ เช่น ผ้าหม้อฮ่อม</option>
+<option value="craft">🧺 งานจักสานและหัตถกรรม</option>
+<option value="waste">♻️ วัสดุเหลือใช้ทางการเกษตร</option>
+<option value="product">📦 ผลิตภัณฑ์แปรรูป</option>
+</select>
+
+<label>ชื่อวัตถุดิบ</label>
+<input id="material" placeholder="เช่น ใบสัก ผ้าหม้อฮ่อม กล้วย">
+
+<label>รายละเอียดวัตถุดิบ</label>
+<textarea id="condition" rows="3" placeholder="บอกลักษณะหรือปัญหาของวัตถุดิบ"></textarea>
+
+<label>อัปโหลดรูปภาพ</label>
+<input type="file" id="photo" accept="image/*">
+<img id="preview" style="display:none;max-width:100%;max-height:250px;margin-top:12px;border-radius:10px;">
+
+<button onclick="analyze()">วิเคราะห์และแนะนำ</button>
+<div id="analysis" class="result" style="display:none"></div>
 </section>
 
-<section id="idea" class="page">
-<button class="back" onclick="home()">← กลับหน้าหลัก</button>
-<h2>💡 แนะนำการแปรรูป</h2>
-<p>ตัวอย่างแนวทางเพิ่มมูลค่าสินค้าเกษตร</p>
-<ul>
-<li>สิ้นค้าแปรรูปที่ได้หลายๆอย่าง</li>
-</ul>
+<section class="card" id="ideas">
+<h2>💡 แนวทางแปรรูปและเพิ่มมูลค่า</h2>
+<div id="ideasResult">เลือกวัตถุดิบเพื่อดูแนวทางแปรรูป</div>
 </section>
+<section class="card" id="cost">
+<h2>💰 คำนวณต้นทุนและกำไร</h2>
 
-<section id="cost" class="page">
-<button class="back" onclick="home()">← กลับหน้าหลัก</button>
-<h2>🧮 คำนวณต้นทุน</h2>
-<label>ค่าวัตถุดิบ (บาท)</label>
-<input id="raw" type="number" placeholder="เช่น 200">
+<label>ต้นทุนวัตถุดิบ (บาท)</label>
+<input type="number" id="raw" value="100" min="0">
+
+<label>ค่าแรง (บาท)</label>
+<input type="number" id="labor" value="50" min="0">
+
 <label>ค่าบรรจุภัณฑ์ (บาท)</label>
-<input id="pack" type="number" placeholder="เช่น 50">
-<label>ค่าแรงและค่าใช้จ่ายอื่น (บาท)</label>
-<input id="labor" type="number" placeholder="เช่น 100">
+<input type="number" id="pack" value="30" min="0">
+
+<label>ค่าใช้จ่ายอื่น ๆ (บาท)</label>
+<input type="number" id="other" value="20" min="0">
+
 <label>จำนวนสินค้าที่ผลิต (ชิ้น)</label>
-<input id="qty" type="number" placeholder="เช่น 20">
-<button class="action" onclick="calculate()">คำนวณต้นทุน</button>
-<h3 id="result"></h3>
+<input type="number" id="qty" value="10" min="1">
+
+<label>ราคาขายต่อชิ้น (บาท)</label>
+<input type="number" id="price" value="30" min="0">
+
+<button onclick="calculate()">คำนวณต้นทุน</button>
+
+<div id="costResult" class="result" style="display:none"></div>
 </section>
 
-<section id="market" class="page">
-<button class="back" onclick="home()">← กลับหน้าหลัก</button>
-<h2>📊 วิเคราะห์ตลาด</h2>
-<p>รวบรวมข้อมูลราคาขายและความต้องการของลูกค้า เพื่อวางแผนจำหน่ายสินค้า</p>
-</section>
-
-<section id="assistant" class="page">
-<button class="back" onclick="home()">← กลับหน้าหลัก</button>
-<h2>🤖 AI ผู้ช่วยเกษตรกร</h2>
-<p>ตัวอย่างคำถาม: สิ้นค้าเมืองแพร่สามารถนำไปแปรรูปอะไรได้บ้าง?</p>
-<p>คำแนะนำเบื้องต้น: ลองศึกษาการทำสิ้นค้าแปรรูป</p>
-</section>
-
-<section id="qr" class="page">
-<button class="back" onclick="home()">← กลับหน้าหลัก</button>
-<h2>🔳 QR Code สินค้า</h2>
-<p>เตรียมเพิ่มระบบสร้าง QR Code สำหรับแสดงข้อมูลสินค้าในขั้นตอนถัดไป</p>
+<section class="card">
+<h2>📈 แนวทางการตลาด</h2>
+<div class="grid">
+<div class="item">
+<h3>🎯 กลุ่มลูกค้า</h3>
+<p>นักท่องเที่ยว คนในชุมชน และผู้สนใจสินค้าท้องถิ่น</p>
+</div>
+<div class="item">
+<h3>🛍️ ช่องทางจำหน่าย</h3>
+<p>ตลาดชุมชน ร้านค้าออนไลน์ และงานแสดงสินค้า</p>
+</div>
+<div class="item">
+<h3>✨ จุดเด่นสินค้า</h3>
+<p>เอกลักษณ์จังหวัดแพร่และภูมิปัญญาท้องถิ่น</p>
+</div>
+</div>
 </section>
 </main>
-<footer>AgriAI © 2026 | Smart Agriculture</footer>
+
+<footer style="background:#174c32;color:white;text-align:center;padding:25px;margin-top:30px">
+<h2 style="color:white">AgriAI 🌱</h2>
+<p>เทคโนโลยีเพื่อเกษตรกรและผลิตภัณฑ์ท้องถิ่นจังหวัดแพร่</p>
+</footer>
 
 <script>
-function showPage(id){
-document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-document.getElementById(id).classList.add('active');
+const suggestions = {
+fruit:{
+name:"ผลไม้และพืชผล",
+ideas:["ผลไม้อบแห้ง","แยมและน้ำผลไม้","ชุดของฝากผลไม้ท้องถิ่น","ผลิตภัณฑ์อาหารจากผลผลิต"]
+},
+leaf:{
+name:"ใบไม้และวัสดุธรรมชาติ",
+ideas:["งานตกแต่งจากใบไม้","ของที่ระลึกจากวัสดุธรรมชาติ","กระดาษจากเส้นใยพืช","ผลิตภัณฑ์รักษ์โลก"]
+},
+herb:{
+name:"สมุนไพร",
+ideas:["ถุงหอมสมุนไพร","สมุนไพรอบแห้ง","ชาสมุนไพรที่ผ่านการตรวจสอบความปลอดภัย","ผลิตภัณฑ์สมุนไพรชุมชน"]
+},
+cloth:{
+name:"ผ้าและสิ่งทอ",
+ideas:["กระเป๋าผ้าหม้อฮ่อม","พวงกุญแจผ้าท้องถิ่น","เสื้อผ้าร่วมสมัย","ของฝากจากผ้าทอ"]
+},
+craft:{
+name:"งานจักสานและหัตถกรรม",
+ideas:["ของตกแต่งบ้าน","กระเป๋าจักสาน","ภาชนะและของใช้","ของที่ระลึกประจำจังหวัด"]
+},
+waste:{
+name:"วัสดุเหลือใช้ทางการเกษตร",
+ideas:["ปุ๋ยหมักจากวัสดุที่เหมาะสม","วัสดุปลูกต้นไม้","กระดาษจากเส้นใย","ผลิตภัณฑ์จากวัสดุเหลือใช้"]
+},
+product:{
+name:"ผลิตภัณฑ์แปรรูป",
+ideas:["พัฒนารูปแบบสินค้าใหม่","ปรับปรุงบรรจุภัณฑ์","สร้างชุดของฝาก","ออกแบบสินค้าให้เหมาะกับตลาด"]
 }
-function home(){
-document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+};
+
+function escapeHTML(value){
+return String(value).replace(/[&<>"']/g,function(c){
+return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+});
 }
-function preview(e){
-const file=e.target.files[0];
+
+document.getElementById("photo").addEventListener("change",function(){
+const file=this.files[0];
 if(file){
-const img=document.getElementById('preview');
-img.src=URL.createObjectURL(file);
-img.style.display='block';
+const reader=new FileReader();
+reader.onload=function(e){
+const img=document.getElementById("preview");
+img.src=e.target.result;
+img.style.display="block";
+};
+reader.readAsDataURL(file);
 }
+});
+
+function analyze(){
+const category=document.getElementById("category").value;
+const material=document.getElementById("material").value.trim();
+const condition=document.getElementById("condition").value.trim();
+
+if(!material){
+alert("กรุณากรอกชื่อวัตถุดิบก่อน");
+return;
 }
+
+const d=suggestions[category];
+const ideas=d.ideas.map((x,i)=>(i+1)+". "+x).join("<br>");
+
+document.getElementById("analysis").style.display="block";
+document.getElementById("analysis").innerHTML=
+"<h3>ผลการวิเคราะห์เบื้องต้น</h3>"+
+"ชื่อวัตถุดิบ: "+escapeHTML(material)+"<br>"+
+"หมวดหมู่: "+d.name+"<br>"+
+"รายละเอียด: "+(condition?escapeHTML(condition):"ไม่ได้ระบุ")+
+"<p><b>แนวทางเพิ่มมูลค่า</b></p>"+ideas+
+"<p><small>หมายเหตุ: เป็นระบบแนะนำตามหมวดหมู่ ยังไม่ได้เชื่อมต่อ AI วิเคราะห์ภาพจริง</small></p>";
+
+document.getElementById("ideasResult").innerHTML=
+"<h3>ไอเดียสำหรับ "+escapeHTML(material)+"</h3>"+
+d.ideas.map(x=>"<p>💡 "+x+"</p>").join("");
+}
+
 function calculate(){
-const raw=Number(document.getElementById('raw').value)||0;
-const pack=Number(document.getElementById('pack').value)||0;
-const labor=Number(document.getElementById('labor').value)||0;
-const qty=Number(document.getElementById('qty').value);
-if(qty<=0){document.getElementById('result').textContent='กรุณาใส่จำนวนสินค้าให้มากกว่า 0';return;}
-const total=raw+pack+labor;
-document.getElementById('result').textContent=
-'ต้นทุนรวม '+total.toFixed(2)+' บาท | ต้นทุนต่อชิ้น '+(total/qty).toFixed(2)+' บาท';
+const ids=["raw","labor","pack","other","qty","price"];
+const v=ids.map(id=>Number(document.getElementById(id).value));
+
+if(v.some(x=>!Number.isFinite(x)||x<0)||v[4]<=0){
+alert("กรุณาตรวจสอบตัวเลข และจำนวนสินค้าต้องมากกว่า 0");
+return;
+}
+
+const total=v[0]+v[1]+v[2]+v[3];
+const unit=total/v[4];
+const revenue=v[4]*v[5];
+const profit=revenue-total;
+
+document.getElementById("costResult").style.display="block";
+document.getElementById("costResult").innerHTML=
+"ต้นทุนรวม: "+total.toFixed(2)+" บาท<br>"+
+"ต้นทุนต่อชิ้น: "+unit.toFixed(2)+" บาท<br>"+
+"รายรับเมื่อขายหมด: "+revenue.toFixed(2)+" บาท<br>"+
+"<b>กำไร/ขาดทุน: "+profit.toFixed(2)+" บาท</b>";
 }
 </script>
 </body>
